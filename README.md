@@ -9,7 +9,7 @@ schema.dbml              # Part 4: Database schema (paste into dbdiagram.io)
 schema.png               # Part 4: ER diagram image
 README.md
 
-## Part 3 — What it implements
+## What it implements
 
 **Sliding window with memory summarisation** — instead of sending the entire conversation history to the LLM every time:
 
@@ -19,7 +19,7 @@ README.md
 
 This keeps token costs roughly flat instead of growing with every message and gives the model focused context instead of a wall of old messages.
 
-## Part 4 — Database Schema
+## Database Schema
 
 8 tables supporting the full support agent workflow. Paste `schema.dbml` into [dbdiagram.io](https://dbdiagram.io) to view the interactive diagram, or see `schema.png`.
 
