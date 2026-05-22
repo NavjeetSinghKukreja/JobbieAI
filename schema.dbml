@@ -1,0 +1,74 @@
+Table users {
+  id uuid [pk]
+  name varchar(255) [not null]
+  email varchar(255) [unique, not null]
+  phone varchar(50)
+  created_at timestamp [default: `now()`]
+}
+
+Table conversations {
+  id uuid [pk]
+  user_id uuid [not null, ref: > users.id]
+  status varchar(20) [not null, default: 'active', note: 'active | escalated | resolved | abandoned']
+  channel varchar(20) [default: 'voice', note: 'voice | chat']
+  started_at timestamp [default: `now()`]
+  ended_at timestamp
+  total_tokens_used int [default: 0]
+}
+
+Table messages {
+  id uuid [pk]
+  conversation_id uuid [not null, ref: > conversations.id]
+  role varchar(20) [not null, note: 'user | assistant | system']
+  content text [not null]
+  token_count int
+  created_at timestamp [default: `now()`]
+}
+
+Table ai_responses {
+  id uuid [pk]
+  message_id uuid [unique, not null, ref: - messages.id]
+  model varchar(100) [not null]
+  confidence_score decimal(3,2) [note: '0.00 to 1.00']
+  response_time_ms int
+  was_cached boolean [default: false]
+  was_escalated boolean [default: false]
+  created_at timestamp [default: `now()`]
+}
+
+Table conversation_summaries {
+  id uuid [pk]
+  conversation_id uuid [not null, ref: > conversations.id]
+  summary_text text [not null]
+  summarised_up_to uuid [ref: > messages.id, note: 'last message included in summary']
+  created_at timestamp [default: `now()`]
+}
+
+Table knowledge_articles {
+  id uuid [pk]
+  title varchar(500) [not null]
+  content text [not null]
+  category varchar(100)
+  is_active boolean [default: true]
+  created_at timestamp [default: `now()`]
+}
+
+Table feedback {
+  id uuid [pk]
+  message_id uuid [not null, ref: > messages.id]
+  user_id uuid [not null, ref: > users.id]
+  rating int [note: '1 to 5']
+  is_correct boolean [note: 'was the response factually correct']
+  feedback_text text
+  created_at timestamp [default: `now()`]
+}
+
+Table escalations {
+  id uuid [pk]
+  conversation_id uuid [not null, ref: > conversations.id]
+  triggered_by_message_id uuid [ref: > messages.id]
+  reason varchar(50) [not null, note: 'low_confidence | loop_detected | user_request | no_knowledge']
+  resolved_by varchar(255)
+  resolved_at timestamp
+  created_at timestamp [default: `now()`]
+}
