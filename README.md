@@ -3,11 +3,12 @@
 An improved architecture for an AI-powered voice support assistant that addresses common production issues like hallucination, context loss, repetition, and cost explosion.
 
 ## Project Structure
-analysis_design.pdf      # Parts 1 & 2: Diagnosis + Architecture Design
-agent.py                 # Part 3: Context management with memory summarisation
-schema.dbml              # Part 4: Database schema (paste into dbdiagram.io)
-schema.png               # Part 4: ER diagram image
-README.md
+
+    analysis_design.pdf      # Parts 1 & 2: Diagnosis + Architecture Design
+    agent.py                 # Part 3: Context management with memory summarisation
+    schema.dbml              # Part 4: Database schema (paste into dbdiagram.io)
+    schema.png               # Part 4: ER diagram image
+    README.md
 
 ## What it implements
 
